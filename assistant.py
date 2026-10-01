@@ -32,7 +32,16 @@ async def converse():
         api_key=key,
         settings=OpenAIRealtimeLLMService.Settings(
             model=os.getenv('OPENAI_REALTIME_MODEL', 'gpt-realtime'),
-            system_instruction='You are a helpful voice assistant. Answer briefly in the language the user speaks.'
+            system_instruction=(
+                'You are a helpful voice assistant. Respond in the language the user speaks. '
+                'The user cannot interrupt you while you speak, so keep replies short. '
+                'By default, answer in one or two short sentences, aiming for at most 40 words. '
+                'Give the direct answer first. Skip introductions, repetition, and unnecessary detail. '
+                'Only give a longer explanation when the user explicitly asks for details. '
+                'For instructions, give the next useful step and wait for the user before continuing. '
+                'If clarification is needed, ask one short question. '
+                'Include essential safety information when needed, even if it takes a few extra words.'
+            )
         ),
     )
     user, assistant = LLMContextAggregatorPair(LLMContext())
